@@ -4,12 +4,21 @@ import "fmt"
 import "os"
 import "os/exec"
 import "strconv"
+import "time"
+
 
 func main() {
-    fmt.Println("Ding!")
     cmd := exec.Command("paplay", "/usr/share/sounds/freedesktop/stereo/complete.oga")
     cmd.Start()
 
     interval, _ := strconv.Atoi(os.Args[1])
-    fmt.Println(interval)
+    counter := 0
+
+    for true {
+        fmt.Println("Ding!", counter)
+        time.Sleep(time.Second * time.Duration(interval))
+        cmd := exec.Command("paplay", "/usr/share/sounds/freedesktop/stereo/complete.oga")
+        cmd.Start()
+        counter++
+    }
 }
