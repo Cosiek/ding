@@ -1,5 +1,6 @@
 package main
 
+import "flag"
 import "fmt"
 import "os"
 import "os/exec"
@@ -11,13 +12,19 @@ const DEFAULT_SOUND = "/usr/share/sounds/freedesktop/stereo/complete.oga"
 
 
 func main() {
-    cmd := exec.Command("paplay", DEFAULT_SOUND)
+    path := flag.String("plik", DEFAULT_SOUND, "ścieżka do pliku z ding")
+    flag.Parse()
+    args := flag.Args()
+
+    fmt.Println(args)
+
+    cmd := exec.Command("paplay", *path)
     cmd.Start()
 
     var interval int
 
-    if len(os.Args) == 2 {
-        tmp, err := strconv.Atoi(os.Args[1])
+    if len(args) >= 1 {
+        tmp, err := strconv.Atoi(args[0])
         if err != nil{
             fmt.Println("Podaj prawidłowy argument (liczba)!")
             os.Exit(1)
@@ -32,7 +39,7 @@ func main() {
     for true {
         fmt.Println("Ding!", counter)
         time.Sleep(time.Second * time.Duration(interval))
-        cmd := exec.Command("paplay", DEFAULT_SOUND)
+        cmd := exec.Command("paplay", *path)
         cmd.Start()
         counter++
     }
