@@ -35,12 +35,18 @@ func main() {
         os.Exit(1)
     }
 
-    counter := 0
+    counter := 1
     for true {
         fmt.Println("Ding!", counter)
+        // check if file exists at given path
+        if _, err := os.Stat(*path); err == nil {
+            cmd := exec.Command("paplay", *path)
+            cmd.Start()
+        } else {
+            fmt.Println("Nie znaleziono takiego pliku z Ding!")
+            os.Exit(1)
+        }
         time.Sleep(time.Second * time.Duration(interval))
-        cmd := exec.Command("paplay", *path)
-        cmd.Start()
         counter++
     }
 }
