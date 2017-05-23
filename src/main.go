@@ -16,11 +16,6 @@ func main() {
     flag.Parse()
     args := flag.Args()
 
-    fmt.Println(args)
-
-    cmd := exec.Command("paplay", *path)
-    cmd.Start()
-
     var interval int
 
     if len(args) >= 1 {
@@ -41,7 +36,11 @@ func main() {
         // check if file exists at given path
         if _, err := os.Stat(*path); err == nil {
             cmd := exec.Command("paplay", *path)
-            cmd.Start()
+            err := cmd.Run()
+            if err != nil {
+                fmt.Println("Błąd odtwarzania!:\n" + err.Error())
+                os.Exit(1)
+            }
         } else {
             fmt.Println("Nie znaleziono takiego pliku z Ding!")
             os.Exit(1)
