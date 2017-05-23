@@ -7,8 +7,11 @@ import "strconv"
 import "time"
 
 
+const DEFAULT_SOUND = "/usr/share/sounds/freedesktop/stereo/complete.oga"
+
+
 func main() {
-    cmd := exec.Command("paplay", "/usr/share/sounds/freedesktop/stereo/complete.oga")
+    cmd := exec.Command("paplay", DEFAULT_SOUND)
     cmd.Start()
 
     var interval int
@@ -29,7 +32,7 @@ func main() {
     for true {
         fmt.Println("Ding!", counter)
         time.Sleep(time.Second * time.Duration(interval))
-        cmd := exec.Command("paplay", "/usr/share/sounds/freedesktop/stereo/complete.oga")
+        cmd := exec.Command("paplay", DEFAULT_SOUND)
         cmd.Start()
         counter++
     }
