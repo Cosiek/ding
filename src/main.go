@@ -11,12 +11,10 @@ import "time"
 const DEFAULT_SOUND = "/usr/share/sounds/freedesktop/stereo/complete.oga"
 
 
-func main() {
-    path := flag.String("plik", DEFAULT_SOUND, "ścieżka do pliku z ding")
+func getArgs() (path *string, interval int) {
+    path = flag.String("plik", DEFAULT_SOUND, "ścieżka do pliku z ding")
     flag.Parse()
     args := flag.Args()
-
-    var interval int
 
     if len(args) >= 1 {
         tmp, err := strconv.Atoi(args[0])
@@ -29,6 +27,12 @@ func main() {
         fmt.Println("Podaj prawidłową częstotliwość ding!")
         os.Exit(1)
     }
+    return
+}
+
+
+func main() {
+    path, interval := getArgs()
 
     counter := 1
     for true {
